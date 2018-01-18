@@ -16,6 +16,9 @@ namespace Spider
             Console.WriteLine(Charlotte.Bite());
             Console.WriteLine(Shelob.Bite());
             Console.WriteLine("{0} has {1} legs remaining and {2} has {3}.", Charlotte.name, Charlotte.CountLegs(), Shelob.name, Shelob.CountLegs());
+
+            Crevice crevice = new Crevice(5);
+            Console.WriteLine("Spider: {0}.", crevice.getSpider().name);
         }
     }
 }

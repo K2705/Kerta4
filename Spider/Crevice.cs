@@ -5,26 +5,30 @@ namespace Spider
     class Crevice
     {
         private int maxSpiders;
+        private int spiderCount;
         private Spider[] spiders;
 
         public Crevice(int max)
         {
             this.maxSpiders = max;
+            this.spiderCount = 0;
             this.spiders = new Spider[maxSpiders];
         }
 
         public Spider getSpider()
         {
-            if (spiders.Length == 0)
+            if (spiderCount == 0)
             {
                 throw new OutOfSpidersException("This crevice has zero spiders inside it!");
             }
             else
             {
-                return spiders[new Random().Next(0, spiders.Length)];
+                return spiders[new Random().Next(0, spiderCount)];
             }
         }
             
+
+
 
     public class OutOfSpidersException : Exception
         {
