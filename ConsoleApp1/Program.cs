@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
@@ -10,6 +6,38 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            Car car = new Car();
+            car.Speed = 300;
+            Console.WriteLine(car);
+        }
+
+        class Car
+        {
+            private readonly int MaxSpeed = 200;
+            private int speed;
+            public int Speed
+            {
+                get
+                {
+                    return speed;
+                }
+                set
+                {
+                    if (value > MaxSpeed)
+                    {
+                        speed = MaxSpeed;
+                    }
+                    else
+                    {
+                        speed = value;
+                    }
+                }
+            }
+
+            public override String ToString()
+            {
+                return Speed.ToString();
+            }
         }
     }
 }
