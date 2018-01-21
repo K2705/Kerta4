@@ -15,6 +15,11 @@ namespace Spider
             this.spiders = new Spider[maxSpiders];
         }
 
+        /// <summary>
+        /// Get a random spider from the crevice
+        /// Throws OutOfSpidersException if the crevice has no spiders
+        /// </summary>
+        /// <returns>a Spider</returns>
         public Spider getSpider()
         {
             if (spiderCount == 0)
@@ -26,6 +31,38 @@ namespace Spider
                 return spiders[new Random().Next(0, spiderCount)];
             }
         }
+
+        /// <summary>
+        /// Add a new spider into the crevice
+        /// </summary>
+        /// <param name="spider">Spider to be added</param>
+        public void addSpider(Spider spider)
+        {
+            if ( spiderCount < maxSpiders )
+            {
+                spiders[spiderCount] = spider;
+                spiderCount++;
+                //Spider added successfully
+            }
+            else
+            {
+                Console.WriteLine("Unable to add spider (crevice full).");
+            }
+        }
+		
+		
+		public String Poke()
+		{
+			if (spiderCount > 0)
+			{
+                Spider spider = getSpider();
+                return "You poke at the crevice, and discover a " + spider.name + ". " + spider.Bite();
+			}
+			else
+			{
+				return "You poke at the crevice, but it seems to be empty.";
+			}
+		}
             
 
 
