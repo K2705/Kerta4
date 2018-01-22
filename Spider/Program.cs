@@ -60,9 +60,9 @@ namespace Spider
                             newSpider = crevice.getSpider();
                             crevice.RemoveSpider(newSpider);
                         }
-                        catch (Crevice.OutOfSpidersException)
+                        catch (Crevice.OutOfSpidersException e)
                         {
-                            Console.WriteLine("ERROR: Crevice empty. Cannot retrieve spider.");
+                            Console.WriteLine("ERROR: " + e.Message);
                             break;
                         }
 
