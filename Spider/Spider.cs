@@ -52,5 +52,19 @@ namespace Spider
         {
             return intactLegs;
         }
+
+        
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType() != this.GetType()) return false; //It's not even a spider.
+            Spider otherSpider = (Spider)obj;
+            if (otherSpider.name != this.name
+                || otherSpider.venom != this.venom
+                || otherSpider.intactLegs != this.intactLegs
+                || otherSpider.size != this.size)
+                return false;
+            
+            return true;
+        }
     }
 }

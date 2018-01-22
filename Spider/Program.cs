@@ -6,6 +6,112 @@ namespace Spider
     {
         static void Main(string[] args)
         {
+            //RunTest();
+            Console.WriteLine("Preparing crevice...");
+            Crevice crevice = new Crevice(5);
+            Console.WriteLine("Creating spiders...");
+            crevice.addSpider(new Spider("brown recluse spider", "deadly necrotoxin", 3));
+            crevice.addSpider(new Spider("black widow spider", "deadly neurotoxin", 3));
+            crevice.addSpider(new Spider("giant spider", "2d4 poison damage", 1000000));
+            crevice.addSpider(new Spider("giant cave spider", "paralytic venom", 10000000));
+            crevice.addSpider(new Spider("Australian funnel-web spider", "nasty mix of atracotoxins", 10));
+            Console.WriteLine("Ready!");
+            MainLoop(crevice);
+        }
+
+        private static void MainLoop(Crevice crevice)
+        {
+            bool keepGoing = true;
+            bool haveSpider = false;
+            Spider spider = null;
+
+            while (keepGoing)
+            {
+                Console.WriteLine();
+                if (!haveSpider)
+                {
+                    Console.WriteLine("You see here a crevice.");
+                    Console.WriteLine("[1] Poke at it");
+                    Console.WriteLine("[2] Retrieve a spider");
+                    Console.WriteLine("[q] Quit");
+                }
+                else
+                {
+                    Console.WriteLine("You see here a crevice, and a " + spider.name + ".");
+                    Console.WriteLine("[1] Poke at the crevice");
+                    Console.WriteLine("[2] Retrieve a new spider");
+                    Console.WriteLine("[3] Pull a spider leg");
+                    Console.WriteLine("[4] Count spider legs");
+                    Console.WriteLine("[5] Discard spider");
+                    Console.WriteLine("[q] Quit");
+                }
+                String input = Console.ReadLine();
+                switch (input)
+                {
+                    case "1":
+                        //poke
+                        Console.WriteLine(crevice.Poke());
+                        break;
+                    case "2":
+                        //new spider
+                        Spider newSpider;
+                        try
+                        {
+                            newSpider = crevice.getSpider();
+                            crevice.RemoveSpider(newSpider);
+                        }
+                        catch (Crevice.OutOfSpidersException)
+                        {
+                            Console.WriteLine("ERROR: Crevice empty. Cannot retrieve spider.");
+                            break;
+                        }
+
+                        if (haveSpider)
+                        {
+                            Console.WriteLine("You toss away your previous spider, and retrieve a shiny new " + newSpider.name + "!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("You root around in the crevice, and pull out a " + newSpider.name + ".");
+                            haveSpider = true;
+                        }
+                        Console.WriteLine(newSpider.Bite());
+                        spider = newSpider;
+
+                        break;
+                    case "3":
+                        //pull leg
+                        if (!haveSpider) goto default; //considered harmful :^)
+                        spider.TearLeg();
+                        break;
+                    case "4":
+                        //count legs
+                        if (!haveSpider) goto default;
+                        Console.WriteLine("{0} has {1} legs remaining.", spider.name, spider.CountLegs());
+                        break;
+                    case "5":
+                        //discard
+                        if (!haveSpider) goto default;
+                        Console.WriteLine("You drop the {0}, and quickly lose track of it.", spider.name);
+                        spider = null;
+                        haveSpider = false;
+                        Console.WriteLine("But with non-deterministic garbage collection, can you ever be sure the spider is really gone?");
+                        break;
+                    case "q":
+                    case "Q":
+                        //quit
+                        keepGoing = false;
+                        Console.WriteLine("Exiting . . .");
+                        break;
+                    default:
+                        Console.WriteLine("Unable to parse input: " + input);
+                        break;
+                }
+            }
+        }
+
+        private static void RunTest()
+        {
             Spider Charlotte = new Spider();
             Spider Shelob = new Spider("brown recluse spider", "deadly necrotoxin", 3);
             Console.WriteLine("Current spiders: {0} and {1}", Charlotte.name, Shelob.name);
@@ -19,8 +125,6 @@ namespace Spider
 
             Crevice crevice = new Crevice(5);
             Console.WriteLine(crevice.Poke());
-            Console.WriteLine("Press any key to continue . . .");
-            Console.ReadKey();
             crevice.addSpider(Shelob);
             crevice.addSpider(Charlotte);
             crevice.addSpider(new Spider("black widow spider", "deadly neurotoxin", 3));
@@ -28,11 +132,7 @@ namespace Spider
             crevice.addSpider(new Spider("giant cave spider", "paralytic venom", 10000000));
             crevice.addSpider(new Spider());
             Console.WriteLine(crevice.Poke());
-            Console.WriteLine("Press any key to continue . . .");
-            Console.ReadKey();
             Console.WriteLine(crevice.Poke());
-            Console.WriteLine("Press any key to continue . . .");
-            Console.ReadKey();
             Console.WriteLine(crevice.Poke());
         }
     }

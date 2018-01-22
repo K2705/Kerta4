@@ -2,6 +2,9 @@
 
 namespace Spider
 {
+    /// <summary>
+    /// A crevice where spiders dwell
+    /// </summary>
     class Crevice
     {
         private int maxSpiders;
@@ -50,7 +53,10 @@ namespace Spider
             }
         }
 		
-		
+		/// <summary>
+        /// Stick your finger into the crevice.
+        /// </summary>
+        /// <returns></returns>
 		public String Poke()
 		{
 			if (spiderCount > 0)
@@ -63,6 +69,31 @@ namespace Spider
 				return "You poke at the crevice, but it seems to be empty.";
 			}
 		}
+
+        /// <summary>
+        /// Checks if the crevice contains a given spider. If yes, removes the spider.
+        /// </summary>
+        /// <param name="spider">the spider to remove</param>
+        /// <returns>true if successful, false if failed</returns>
+        public bool RemoveSpider(Spider spider)
+        {
+            for (int i = 0; i < spiderCount; i++)
+            {
+                if (spider.Equals(spiders[i]))
+                {
+                    //Remove spider, shift other spiders back in the array
+                    spiders[i] = null;
+                    for (int j = i+1; j < spiderCount; j++)
+                    {
+                        spiders[j - 1] = spiders[j];
+                    }
+                    spiderCount--;
+                    return true;
+                }
+            }
+            //spider not found
+            return false;
+        }
             
 
 
